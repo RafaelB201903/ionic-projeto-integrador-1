@@ -13,12 +13,13 @@ export class LoginCadastroPage implements OnInit {
   @ViewChild('username') username;
   @ViewChild('password') password;
 
-  constructor(private auth : AngularFireAuth,
-    private template : TemplateService,
+  constructor(private auth : AngularFireAuth,private template : TemplateService,
     private navCtrl : NavController,) { }
 
+  ngOnInit() {
+  }
+
   cadastro(){
-    
     this.template.loading.then(load=>{
       load.present();
       this.auth.createUserWithEmailAndPassword(this.username.value, this.password.value).then(response=>{
@@ -28,13 +29,6 @@ export class LoginCadastroPage implements OnInit {
       }).catch(err=>{
         this.template.myAlert("Dados incorretos");
       })
-
     })
-
-    
   }
-
-  ngOnInit() {
-  }
-
 }
