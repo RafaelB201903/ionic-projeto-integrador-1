@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Cliente } from '../model/cliente';
 import { ClienteService } from '../services/cliente.service';
@@ -9,6 +9,8 @@ import { ClienteService } from '../services/cliente.service';
   styleUrls: ['./clientes.page.scss'],
 })
 export class ClientesPage implements OnInit {
+ 
+  @ViewChild("nome") nome; 
 
   lista : Cliente[] = [];
 
@@ -18,9 +20,9 @@ export class ClientesPage implements OnInit {
   ngOnInit() {
     this.clienteServ.listaDeClientes().subscribe(response=>{
       // O servidor respondeu
-      console.log(response); // remover, apenas para testar no console
+      
       this.lista = response;
-      console.log(this.lista); // remover, apenas para testar no console
+     
 
       
     },err=>{
@@ -31,5 +33,14 @@ export class ClientesPage implements OnInit {
   visualizar(cliente){
     this.navCtrl.navigateForward(['/clientes-visualizar',cliente.id])
   }
+
+  pesquisar(){
+    console.log("Busca por: "+this.nome.value)
+    this.clienteServ.buscaPorNome(this.nome.value).subscribe(response=>{
+      this.lista = [];
+      this.lista = response;
+    });
+  }
+  
 
 }
