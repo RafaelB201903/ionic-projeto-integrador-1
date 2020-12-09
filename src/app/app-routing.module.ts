@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'clientes-atualizar/:id',
     loadChildren: () => import('./clientes-atualizar/clientes-atualizar.module').then( m => m.ClientesAtualizarPageModule)
+  },
+  {
+    path: 'login-cadastro',
+    loadChildren: () => import('./login-cadastro/login-cadastro.module').then( m => m.LoginCadastroPageModule)
   }
 ];
 

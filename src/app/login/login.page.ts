@@ -56,5 +56,8 @@ export class LoginPage implements OnInit {
     })
   }
 
+  cadastro(){
+    this.navCtrl.navigateForward(['/login-cadastro'])
+  }
 
 }
