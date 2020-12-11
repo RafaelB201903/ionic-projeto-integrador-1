@@ -12,21 +12,23 @@ import { Cliente } from '../model/cliente';
 export class PerfilPage implements OnInit {
   
   formGroup: FormGroup;
-  perfil : Cliente = new Cliente();
-  idUser = '';
+  perfil : Cliente = new Cliente(); // Declarar a classe onde se encontra dados do perfil
   
   constructor(private formBuilder : FormBuilder, 
     private clienteServ : ClienteService,
-    private auth : AngularFireAuth) {
+    private auth : AngularFireAuth) { // AngularFireAuth -> pegar dados do usuario logado
     
-      this.iniciarForm();
+      this.iniciarForm(); // obrigatório inicializar o formulário
     
-      this.auth.currentUser.then(response=>{
+      this.auth.currentUser.then(response=>{ // auth.currentUser -> Obten dados do usuario
+
         this.clienteServ.buscaPerfilPorId(response.uid).subscribe(response=>{
-          console.log(response);
-          this.perfil = response;
-          this.iniciarForm();
-        })
+          // se houver o perfil, colocar os dados para a variavel perfil
+          this.perfil = response; // dados preenchidos
+          this.iniciarForm(); // atualizar os dados do formulário
+        }
+
+        )
       })
 
   }
@@ -34,7 +36,7 @@ export class PerfilPage implements OnInit {
   ngOnInit() {
   }
 
-  
+  // vincular dados da variavel perfil
   iniciarForm() {
     this.formGroup = this.formBuilder.group({
       nome: [this.perfil.nome],
@@ -50,7 +52,9 @@ export class PerfilPage implements OnInit {
 
   atualizar(){
     
-    this.auth.currentUser.then(response=>{
+    this.auth.currentUser.then(response=>{ // auth.currentUser -> Obten dados do usuario
+      // envio uid -> idUsuário
+      // this.formGroup.value -> Dados preenchidos nos campos
       this.clienteServ.atualizaPerfil(response.uid,this.formGroup.value).subscribe(response=>{
         console.log(response);
         console.log(this.formGroup.value  )
