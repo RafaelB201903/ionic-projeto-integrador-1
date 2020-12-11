@@ -23,6 +23,11 @@ export class AppComponent implements OnInit {
       icon: 'mail'
     },
     {
+      title: 'Perfil',
+      url: 'perfil',
+      icon: 'mail'
+    },
+    {
       title: 'Sair',
       url: 'sair',
       icon: 'exit'

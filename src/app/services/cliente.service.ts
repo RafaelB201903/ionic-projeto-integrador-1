@@ -40,9 +40,8 @@ export class ClienteService{
 
         // Observable -> Aguardar resposta do servidor
         return from(new Observable(observe =>{ // converter para Observable
-            
             this.firestore.collection('cliente').ref.orderBy("nome")
-                .startAt(nome).startAt(nome).endAt(nome+"\uf8ff").get().then(response=>{
+                .startAt(nome).endAt(nome+"\uf8ff").get().then(response=>{
                 let lista: Cliente[] = [];
                 response.docs.map(obj =>{
                     // será repetido para cada registro, cada registro do Firestore se chama obj
@@ -57,6 +56,31 @@ export class ClienteService{
         }))
     }
 
+    getPerfil(idUser){
+        return from(new Observable(observe =>{ // converter para Observable
+
+            this.firestore.collection("perfil").doc(idUser).get().subscribe(response=>{ // .doc seleciona o cliente com base no id
+           
+              if(response.exists==false){
+                
+              }else{
+                
+              }
+            })
+        }))
+    }
+
+    atualizaPerfil(idUser, data){
+        return from(new Observable(observe => {
+
+            this.firestore.collection('perfil').doc(idUser).set(data).then(response=>{
+                observe.next("Atualizado com sucesso!");
+            },(err)=>{
+                observe.error("Erro ao atualizar!");
+            })
+
+        })); 
+    }
 
     //
 
@@ -89,7 +113,23 @@ export class ClienteService{
         }));  
     }
 
+    buscaPerfilPorId(id : any) : Observable<any>{
+        return from(new Observable(observe => {
+            this.firestore.collection('perfil').doc(id).snapshotChanges().subscribe(response=>{
+                if(response.payload.exists!==false){
+                
+                let cliente : Cliente = new Cliente();
+                cliente.id = response.payload.id;
+                cliente.setData(response.payload.data());
+                observe.next(cliente);
+            }
 
+            },(err)=>{
+                observe.error("Erro ao buscar o ID!");
+            })
+
+        }));  
+    }
 
     atualizar(cliente : any)  : Observable<any>{
         return from(new Observable(observe => {

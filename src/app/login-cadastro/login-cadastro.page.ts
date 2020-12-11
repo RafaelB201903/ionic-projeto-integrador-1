@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
 })
 export class LoginCadastroPage implements OnInit {
 
-  @ViewChild('username') username;
+  @ViewChild('username') username; //#username
   @ViewChild('password') password;
 
   constructor(private auth : AngularFireAuth,private template : TemplateService,
@@ -22,6 +22,7 @@ export class LoginCadastroPage implements OnInit {
   cadastro(){
     this.template.loading.then(load=>{
       load.present();
+
       this.auth.createUserWithEmailAndPassword(this.username.value, this.password.value).then(response=>{
         load.dismiss();
         this.template.myAlert("Cadastrado com sucesso");
